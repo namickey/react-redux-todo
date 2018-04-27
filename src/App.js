@@ -12,9 +12,12 @@ class App extends Component{
   }
   addTodo(title){
     const {tasks,} = this.state;
-    tasks.push({
+    tasks.unshift({
       title,
     });
+    if (tasks.length > 13){
+      tasks.pop();
+    }
     this.setState({
       tasks,
     });
@@ -53,10 +56,10 @@ class TodoInput extends Component{
   }
   render(){
     return (
-      <div>
+      <ul><li><div style={getStyle()}>
         <input placeholder="input here." value={this.state.inputValue} onChange={this.handleChange}/>
         <button onClick={this.handleClick}>submit</button>
-      </div>
+      </div></li></ul>
     );
   }
 }
@@ -75,11 +78,29 @@ class TodoList extends Component {
     );
   }
 }
-
+function getStyle(){
+  let r = ('0' + Math.floor(Math.random() * 255).toString(16)).slice(-2);
+  let g = ('0' + Math.floor(Math.random() * 255).toString(16)).slice(-2);
+  let b = ('0' + Math.floor(Math.random() * 255).toString(16)).slice(-2);
+  const color = '#' + r + g + b;
+  const color2 = '#' + b + r + g;
+  const style ={
+    margin: '6px',
+    border: '6px ' + color2 + ' solid',
+    width: '350px',
+    height: '30px',
+    backgroundColor: color,
+    borderTopLeftRadius: '13px',
+    borderTopRightRadius: '13px',
+    borderBottomLeftRadius: '13px',
+    borderBottomRightRadius: '13px',
+  }
+  return style;
+}
 function TodoItem(props){
   return (
     <li>
-      {props.title}
+      <div style={getStyle()}>{props.title}</div>
     </li>
   );
 }
